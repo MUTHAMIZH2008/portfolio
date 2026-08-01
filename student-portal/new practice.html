@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Muthu project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="portal-shell">
+        <header class="portal-header">
+            <div class="portal-brand">
+                                <div class="portal-logo" aria-hidden="true">
+                                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img">
+                                                <defs>
+                                                    <linearGradient id="g" x1="0" x2="1">
+                                                        <stop offset="0" stop-color="#4f46e5"/>
+                                                        <stop offset="1" stop-color="#06b6d4"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <rect width="100" height="100" rx="18" fill="url(#g)" />
+                                                <text x="50" y="58" font-family="Segoe UI, Arial" font-size="48" fill="#fff" text-anchor="middle">M</text>
+                                        </svg>
+                                </div>
+                                <div>
+                                    <h1>Muthu Project</h1>
+                                    <p>Create account, login, store data, and compute CGPA</p>
+                                </div>
+            </div>
+        </header>
+
+        <main class="portal-main">
+            <!-- Login / Register -->
+            <section id="auth-section" class="card card-panel">
+                <div id="auth-forms" class="form-grid">
+                    <div id="login-box" class="card-panel">
+                        <h2>Login</h2>
+                        <form id="login-form">
+                            <label>
+                                Email
+                                <input type="email" id="login-email" required>
+                            </label>
+                            <label>
+                                Password
+                                <input type="password" id="login-password" required>
+                            </label>
+                            <div class="form-error" id="login-error"></div>
+                            <div style="margin-top:8px">
+                                <button type="button" id="forgot-password" class="btn" style="background:transparent;color:#374151">Forgot password?</button>
+                            </div>
+                            <div style="margin-top:10px">
+                                <button class="btn btn-primary" type="submit">Login</button>
+                                <button class="btn btn-secondary" type="button" id="show-register">Create account</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="reset-box" class="card-panel hidden">
+                        <h2>Reset Password</h2>
+                        <form id="reset-request-form">
+                            <label>Enter your account email
+                                <input type="email" id="reset-email" required>
+                            </label>
+                            <div class="form-error" id="reset-request-error"></div>
+                            <div class="success-message" id="reset-request-message"></div>
+                            <div style="margin-top:10px">
+                                <button class="btn btn-primary" type="submit">Request reset code</button>
+                                <button class="btn" type="button" id="reset-back">Back</button>
+                            </div>
+                        </form>
+
+                        <form id="reset-confirm-form" class="hidden" style="margin-top:12px">
+                            <label>Enter code
+                                <input type="text" id="reset-code" required>
+                            </label>
+                            <label>New password
+                                <input type="password" id="reset-new-password" required>
+                            </label>
+                            <label>Confirm password
+                                <input type="password" id="reset-new-password-confirm" required>
+                            </label>
+                            <div class="form-error" id="reset-error"></div>
+                            <div class="success-message" id="reset-success"></div>
+                            <div style="margin-top:10px">
+                                <button class="btn btn-primary" type="submit">Reset password</button>
+                                <button class="btn" type="button" id="reset-cancel">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="register-box" class="card-panel hidden">
+                        <h2>Create Account</h2>
+                        <form id="register-form">
+                            <label>
+                                Full name
+                                <input type="text" id="reg-name" required>
+                            </label>
+                            <label>
+                                Email
+                                <input type="email" id="reg-email" required>
+                            </label>
+                            <label>
+                                Register as admin
+                                <input type="checkbox" id="reg-admin">
+                            </label>
+                            <label>
+                                Password
+                                <input type="password" id="reg-password" required>
+                            </label>
+                            <label>
+                                Confirm password
+                                <input type="password" id="reg-password-confirm" required>
+                            </label>
+                            <div class="form-error" id="register-error"></div>
+                            <div class="success-message" id="register-success"></div>
+                            <div style="margin-top:10px">
+                                <button class="btn btn-primary" type="submit">Register</button>
+                                <button class="btn" type="button" id="show-login">Back to login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- App -->
+            <section id="app-section" class="hidden">
+                <div class="portal-nav">
+                    <button class="nav-button active-nav" data-view="dashboard">Dashboard</button>
+                    <button class="nav-button" data-view="cgpa">CGPA Calculator</button>
+                    <button class="nav-button" data-view="attendance">Attendance</button>
+                    <button class="nav-button" data-view="profile">Profile</button>
+                    <button class="nav-button" data-view="admin" id="admin-button" style="display:none">Admin</button>
+                    <button id="logout-button" class="nav-button nav-logout">Logout</button>
+                </div>
+
+                <div id="dashboard-view" class="view-panel active-panel card">
+                    <h2>Dashboard</h2>
+                    <div class="cards-grid">
+                        <div class="info-card">
+                            <span>Total students</span>
+                            <strong id="total-students">0</strong>
+                        </div>
+                        <div class="info-card">
+                            <span>Average attendance</span>
+                            <strong id="average-attendance">0%</strong>
+                        </div>
+                        <div class="info-card">
+                            <span>Students below 75%</span>
+                            <strong id="low-attendance-count">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="table-panel card-panel">
+                        <h3>Students</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Name</th><th>Class</th><th>Attendance</th><th>Status</th></tr>
+                            </thead>
+                            <tbody id="student-summary"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="cgpa-view" class="view-panel card hidden">
+                    <h2>CGPA Calculator</h2>
+                    <div class="card-panel">
+                        <form id="cgpa-form">
+                            <div id="subjects-list"></div>
+                            <div style="margin-top:10px">
+                                <button type="button" id="add-subject" class="btn">Add subject</button>
+                                <button type="submit" class="btn btn-primary">Calculate CGPA</button>
+                            </div>
+                        </form>
+                        <div class="success-message" id="cgpa-result"></div>
+                    </div>
+                </div>
+
+                <div id="attendance-view" class="view-panel card hidden">
+                    <h2>Attendance</h2>
+                    <div class="table-panel card-panel">
+                        <table>
+                            <thead><tr><th>#</th><th>Name</th><th>Class</th><th>Present</th></tr></thead>
+                            <tbody id="attendance-list"></tbody>
+                        </table>
+                        <div style="margin-top:10px">
+                            <button id="save-attendance" class="btn btn-primary">Save Attendance</button>
+                            <div class="success-message" id="attendance-message"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="profile-view" class="view-panel card hidden">
+                    <h2>Profile</h2>
+                    <div class="card-panel">
+                        <p><strong id="profile-name"></strong></p>
+                        <p><span id="profile-email"></span></p>
+                        <p>Saved CGPA: <strong id="profile-cgpa">—</strong></p>
+                        <hr>
+                        <h3>Upload Documents</h3>
+                        <label style="display:block; margin-bottom:8px">
+                            Select files to upload
+                            <input type="file" id="profile-upload" multiple>
+                        </label>
+                        <div>
+                            <h4>Documents</h4>
+                            <ul id="profile-docs-list"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="admin-view" class="view-panel card hidden">
+                    <h2>Admin</h2>
+                    <div class="card-panel">
+                        <h3>Users</h3>
+                        <ul id="admin-users-list"></ul>
+                        <h3 style="margin-top:1rem">Students</h3>
+                        <ul id="admin-students-list"></ul>
+                        <div style="margin-top:1rem">
+                            <button id="admin-clear-data" class="btn btn-secondary">Clear all data (local demo)</button>
+                            <button id="admin-export" class="btn">Export data (JSON)</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
